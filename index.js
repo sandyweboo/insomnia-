@@ -2,6 +2,7 @@ import express from 'express'
 import { signup , signin} from './controller/authController.js';
 import mongoose from 'mongoose';
 
+
 mongoose.connect('mongodb://localhost:27017/mern-blog').then(()=>{
     console.log("db connection succesfull")
 })
@@ -21,5 +22,5 @@ res.status(statusCode).json({
 })
 
 app.listen(3000, () => {
-  console.log("App running on port 3000");
+  console.log("App running on port 3000!");
 });

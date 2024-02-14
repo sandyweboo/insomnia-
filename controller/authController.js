@@ -1,9 +1,10 @@
 import express  from "express";
 import User from "../model/userModel.js";
 import { errorHandler } from "../utils/error.js";
-
+import jwt from "jsonwebtoken";
 import bcrypt from 'bcryptjs'
 
+const Jwt = jwt
 
 export const signup = async(req, res, next)=>{
 const {username, email, password} = req.body;
@@ -43,8 +44,11 @@ try {
     if (!validPassword) {
         return next(errorHandler(401, "Invalid password"));
     } else {
+        const token = Jwt.sign({id:validUser._id},'sandy');
         // Authentication successful, you may want to generate and send a token here
-        res.json(validUser);
+       const {password : pass,...rest } = validUser._doc;
+        res.status(200).cookie('access_token',token,{httpOnly:true})
+        res.json(rest);
     }
     
     
